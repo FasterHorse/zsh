@@ -1,0 +1,8 @@
+alias bashrc='vim ~/.bashrc'
+alias vimrc='vim ~/.vimrc'
+alias v='vim -O'
+alias vim='vim -O'
+alias i='sudo apt-get install'
+alias c='xclip -selection c'
+alias r='sudo su'
+alias s='smplayer'

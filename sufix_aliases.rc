@@ -1,0 +1,14 @@
+alias -s py=vim
+alias -s rb=vim
+alias -s txt=vim
+alias -s sh=vim
+alias -s md=vim
+alias -s sbt=vim
+alias -s log=vim
+alias -s html=vim
+alias -s css=vim
+alias -s json=vim
+alias -s js=vim
+alias -s config=vim
+alias -s xml=vim
+alias -s tex=vim
