@@ -47,12 +47,14 @@ function parse_git_branch {
   echo "("${ref#refs/heads/}") "
 }
 
-hostcolor=$(hostname | od | tr ' ' '\n' | awk '{total = total + $1}END{print (total % 6)}')
-usercolor=$(whoami | od | tr ' ' '\n' | awk '{total = total + $1}END{print (total % 6)}')
-daycolor=$(date +'%d' | od | tr ' ' '\n' | awk '{total = total + $1}END{print (total % 6)}')
+hostcolor=$(hostname | od | tr ' ' '\n' | awk '{total = total + $1}END{print (1 + (total % 5))}')
+usercolor=$(whoami | od | tr ' ' '\n' | awk '{total = total + $1}END{print (1 + (total % 5))}')
+function daycolor {
+  echo $(date +'%d' | awk '{total = total + $1}END{print (1 + (total % 5))}')
+}
 
 setopt PROMPT_SUBST
-PROMPT='%F{$daycolor}%D{%m-%d}%f %D{%H:%M:%S} %F{$usercolor}%n%f@%F{$hostcolor}%m%f:%. $(parse_git_branch)%(?.%F{green}$.%F{red}(%?%) $) %f'
+PROMPT='%F{$(daycolor)}%D{%m-%d}%f %D{%H:%M:%S} %F{$usercolor}%n%f@%F{$hostcolor}%m%f:%. $(parse_git_branch)%(?.%F{green}$.%F{red}(%?%) $) %f'
 
 alias ls='ls --color=auto'
 
