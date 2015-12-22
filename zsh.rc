@@ -56,7 +56,7 @@ function daycolor {
 setopt PROMPT_SUBST
 PROMPT='%F{$(daycolor)}%D{%m-%d}%f %D{%H:%M:%S} %F{$usercolor}%n%f@%F{$hostcolor}%m%f:%. $(parse_git_branch)%(?.%F{green}$.%F{red}(%?%) $) %f'
 
-alias ls='ls --color=auto'
+eval "$(dircolors -b)"
 
 . ~/.zsh/sufix_aliases.rc
 . ~/.zsh/aliases.rc
