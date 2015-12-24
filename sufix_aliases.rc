@@ -10,3 +10,5 @@ alias -s config=vim
 alias -s xml=vim
 alias -s tex=vim
 alias -s pdf=okular
+alias -s c=vim
+alias -s cpp=vim
