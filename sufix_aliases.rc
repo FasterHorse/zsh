@@ -12,5 +12,5 @@ alias -s tex=vim
 alias -s pdf=okular
 alias -s c=vim
 alias -s cpp=vim
-alias -s gz='guzip -k'
-alias -s bz2='bzip2 -dk'
+alias -s gz='gunzip -k'
+alias -s bz2=bzless
