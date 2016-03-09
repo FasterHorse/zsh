@@ -64,3 +64,6 @@ eval "$(dircolors -b ~/.zsh/dircolors)"
 . ~/.zsh/aliases.rc
 
 . ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+export VISUAL=vim
+export EDITOR="$VISUAL"
