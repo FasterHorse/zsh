@@ -67,3 +67,7 @@ eval "$(dircolors -b ~/.zsh/dircolors)"
 
 export VISUAL=vim
 export EDITOR="$VISUAL"
+
+export LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s"
+export LESS=' -R '
+alias lessh='LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s" less -M '
