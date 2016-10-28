@@ -1,0 +1,97 @@
+---
+- hosts: all
+  vars:
+    user: "{{user_name}}"
+    sbt_version: "0.13.7"
+    sbt_archive_name: "sbt-{{sbt_version}}"
+    sbt_archive_file: "{{sbt_archive_name}}.tgz"
+    sbt_download_url: "https://dl.bintray.com/sbt/native-packages/sbt/{{sbt_version}}/{{sbt_archive_file}}"
+    sbt_lib_path: "/usr/share/sbt"
+    sbt_lib_path_target: "{{sbt_lib_path}}/{{sbt_version}}"
+    sbt_link_target: "/usr/bin/sbt"
+  tasks:
+    - name: Install git and gitk
+      apt: name={{item}}
+      with_items:
+      - git
+      - gitk
+    - apt: name=vim
+    - name: Set vimrc
+      copy: src=/home/{{user}}/.zsh/vim/vim.rc dest=/home/{{user}}/.vimrc owner=quail group=quail
+    - name: Create vim spell directory
+      file: dest=/home/{{user}}/.vim/spell state=directory owner=quail group=quail
+    - apt: name=zsh
+    - name: Set zsh as default shell
+      user: name={{user}} shell=/bin/zsh
+    - name: Load default .zshrc
+      file: dest=/home/{{user}}/.zshrc src=/home/{{user}}/.zsh/zsh/zsh.rc state=link owner=quail group=quail
+    - name: Install system load indicator
+      apt: name=indicator-multiload
+    - apt_repository: repo='ppa:gnome-terminator'
+    - apt_repository: repo='ppa:shutter/ppa'
+    - apt_repository: repo='ppa:diodon-team/stable'
+    - apt_repository: repo='ppa:rvm/smplayer'
+    - apt: name=terminator
+    - apt: name=shutter
+    - apt: name=diodon
+    - name: tex
+      apt: name={{item}}
+      with_items:
+      - texlive-latex-base
+      - texlive-latex-extra
+      - texlive-full
+    - name: Disable Guest Connection
+      copy: src=50-disable-guest.conf dest=/etc/lightdm/lightdm.conf.d/50-disable-guest.conf mode=0644
+    - name: Install smplayer
+      apt: name=smplayer
+    - name: Exfat filesystem 1
+      apt: name=exfat-fuse
+    - name: Exfat filesystem 2
+      apt: name=exfat-utils
+    - name: Htop
+      apt: name=htop
+    - name: Add Java repository to sources
+      action: apt_repository repo='ppa:webupd8team/java'
+    - name: Autoaccept license for Java
+      action: shell echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
+    - name: Update APT package cache
+      action: apt update_cache=yes
+    - name: Install Java 7
+      action: apt pkg=oracle-java7-installer state=latest install_recommends=yes
+    - name: Set Java 7 Env
+      action: apt pkg=oracle-java7-set-default state=latest install_recommends=yes
+    - name: cmake
+      apt: name=cmake
+    - name: thrift dependencies
+      apt: name={{item}}
+      with_items:
+      - automake
+      - bison
+      - flex
+      - g++
+      - git
+      - libevent-dev
+      - libssl-dev
+      - libtool
+      - make
+      - pkg-config
+    - name: glpk
+      apt: name=libglpk-dev
+    - name: irc
+      apt: name=irssi
+    - name: xclip
+      apt: name=xclip
+    - name: aria2c downloader
+      apt: name=aria2
+    - name: Create /opt/src/sbt
+      file: path=/opt/src/sbt state=directory recurse=yes
+    
+    - name: Create lib dir
+      file: path={{sbt_lib_path_target}} state=directory recurse=yes
+    - name: Download sbt v{{sbt_version}}
+      get_url: url={{sbt_download_url}} 
+        dest=/opt/src/sbt/{{sbt_archive_file}}
+    - name: Unpack sbt
+      unarchive: src=/opt/src/sbt/{{sbt_archive_file}} dest={{sbt_lib_path_target}} copy=no
+    - name: Link sbt
+      file: state=link src={{sbt_lib_path_target}}/sbt/bin/sbt dest={{sbt_link_target}}

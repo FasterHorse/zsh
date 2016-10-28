@@ -1,0 +1,17 @@
+alias -s txt=vim
+alias -s md=vim
+alias -s sbt=vim
+alias -s log=vim
+alias -s html=vim
+alias -s css=vim
+alias -s json=vim
+alias -s js=vim
+alias -s config=vim
+alias -s xml=vim
+alias -s tex=vim
+alias -s pdf=okular
+alias -s c=vim
+alias -s cpp=vim
+alias -s gz='gunzip -k'
+alias -s bz2=bzless
+alias -s zip=unzip
