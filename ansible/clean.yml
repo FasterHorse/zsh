@@ -1,7 +1,7 @@
 ---
-- hosts: all
+- hosts: localhost
   vars:
-    user: "{{user_name}}"
+    user: "quail"
     sbt_version: "0.13.7"
     sbt_archive_name: "sbt-{{sbt_version}}"
     sbt_archive_file: "{{sbt_archive_name}}.tgz"
@@ -40,8 +40,8 @@
       - texlive-latex-base
       - texlive-latex-extra
       - texlive-full
-    - name: Disable Guest Connection
-      copy: src=50-disable-guest.conf dest=/etc/lightdm/lightdm.conf.d/50-disable-guest.conf mode=0644
+    # - name: Disable Guest Connection
+    #   copy: src=50-disable-guest.conf dest=/etc/lightdm/lightdm.conf.d/50-disable-guest.conf mode=0644
     - name: Install smplayer
       apt: name=smplayer
     - name: Exfat filesystem 1
@@ -95,3 +95,22 @@
       unarchive: src=/opt/src/sbt/{{sbt_archive_file}} dest={{sbt_lib_path_target}} copy=no
     - name: Link sbt
       file: state=link src={{sbt_lib_path_target}}/sbt/bin/sbt dest={{sbt_link_target}}
+    - name: parallel ssh
+      pip: name=pssh
+    - name: adb android
+      apt: name=android-tools-adb
+    - name: ssh server
+      apt: name=openssh-server
+    - name: gconf editor
+      apt: name=dconf-tools
+    - name: get unbuffer
+      apt: name=expect-dev
+    - name: get beets
+      apt: name=beets
+    - name: sqlite
+      apt: name=sqlite3
+    - name: lisqlite
+      apt: libsqlite3-dev
+    - name: beautiful-soup
+      apt: python-bs4
+# curl -sL https://raw.githubusercontent.com/egalpin/apt-vim/master/install.sh | sh
